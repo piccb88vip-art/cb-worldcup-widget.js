@@ -2,6 +2,7 @@
   const API_URL = "https://script.google.com/macros/s/AKfycbwtg26SSgLniBFMJ2jVc9ZVdSfsuQmk8_70w6KEtE_gR-qWBpyUlpB90GumTYDgQB-x/exec";
   const PREDIKSI_LINK = "https://click-lynk.com/CBEVNT2-FIFAWORLDCUP";
   const SBO_LINK = "https://click-lynk.com/SBO_CBWL";
+  const LOGO_URL = "https://clickbet88sedekahrejeki02.xyz/storage/webpersonalize/d54f5304-03b3-49f7-b283-e6fe0c595ca7.gif";
 
   const flags = {
     "Mexico": "🇲🇽",
@@ -17,7 +18,7 @@
     "Brazil": "🇧🇷",
     "Morocco": "🇲🇦",
     "Haiti": "🇭🇹",
-    "Scotland": "🏴󠁧󠁢󠁳󠁣󠁴󠁿",
+    "Scotland": "🏴",
     "Australia": "🇦🇺",
     "Turkiye": "🇹🇷",
     "Germany": "🇩🇪",
@@ -46,7 +47,7 @@
     "Jordan": "🇯🇴",
     "Portugal": "🇵🇹",
     "DR Congo": "🇨🇩",
-    "England": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
+    "England": "🏴",
     "Croatia": "🇭🇷",
     "Ghana": "🇬🇭",
     "Panama": "🇵🇦",
@@ -84,13 +85,11 @@
           color: #fff;
           font-family: Arial, Helvetica, sans-serif;
           background:
-            radial-gradient(circle at 20% 0%, rgba(0, 112, 255, .32), transparent 34%),
-            radial-gradient(circle at 85% 20%, rgba(255, 210, 75, .28), transparent 30%),
-            linear-gradient(180deg, rgba(4, 10, 30, .78), rgba(0, 0, 0, .72));
+            radial-gradient(circle at 18% 0%, rgba(0, 102, 255, .34), transparent 35%),
+            radial-gradient(circle at 88% 12%, rgba(255, 215, 70, .25), transparent 32%),
+            linear-gradient(180deg, rgba(0, 12, 55, .74), rgba(0, 0, 0, .74));
           border: 1px solid rgba(255, 214, 90, .55);
-          box-shadow:
-            0 0 22px rgba(0, 76, 255, .35),
-            inset 0 0 18px rgba(255, 214, 90, .08);
+          box-shadow: 0 0 22px rgba(0, 76, 255, .38), inset 0 0 18px rgba(255, 214, 90, .08);
           backdrop-filter: blur(8px);
           -webkit-backdrop-filter: blur(8px);
           box-sizing: border-box;
@@ -100,8 +99,7 @@
           content: "";
           position: absolute;
           inset: 0;
-          background-image:
-            linear-gradient(120deg, transparent 0%, rgba(255,255,255,.12) 45%, transparent 55%);
+          background-image: linear-gradient(120deg, transparent 0%, rgba(255,255,255,.12) 45%, transparent 55%);
           transform: translateX(-120%);
           animation: cbwcShine 5s infinite;
           pointer-events: none;
@@ -121,31 +119,30 @@
           justify-content: space-between;
           gap: 10px;
           margin-bottom: 12px;
-          padding: 2px 4px;
         }
 
         .cbwc-title-wrap {
           display: flex;
           align-items: center;
-          gap: 10px;
+          gap: 12px;
           min-width: 0;
         }
 
-        .cbwc-icon {
-          width: 34px;
-          height: 34px;
-          border-radius: 50%;
-          display: grid;
-          place-items: center;
-          background: linear-gradient(180deg, #ffe27a, #b57900);
-          color: #07102d;
-          box-shadow: 0 0 14px rgba(255, 210, 75, .7);
-          font-size: 18px;
-          flex: 0 0 auto;
+        .cbwc-logo {
+          height: 42px;
+          width: auto;
+          max-width: 170px;
+          object-fit: contain;
+          flex-shrink: 0;
+          filter: drop-shadow(0 0 7px rgba(255,215,0,.6)) drop-shadow(0 0 12px rgba(0,102,255,.45));
+        }
+
+        .cbwc-title-box {
+          min-width: 0;
         }
 
         .cbwc-title {
-          font-size: 18px;
+          font-size: 17px;
           font-weight: 900;
           letter-spacing: .4px;
           color: #ffd95b;
@@ -191,12 +188,9 @@
           text-align: center;
           position: relative;
           overflow: hidden;
-          background:
-            linear-gradient(180deg, rgba(14, 37, 94, .86), rgba(3, 8, 26, .9));
+          background: linear-gradient(180deg, rgba(14, 37, 94, .86), rgba(3, 8, 26, .9));
           border: 1px solid rgba(255, 214, 90, .65);
-          box-shadow:
-            inset 0 0 16px rgba(255, 214, 90, .08),
-            0 8px 18px rgba(0,0,0,.28);
+          box-shadow: inset 0 0 16px rgba(255, 214, 90, .08), 0 8px 18px rgba(0,0,0,.28);
           transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
           box-sizing: border-box;
         }
@@ -204,9 +198,7 @@
         .cbwc-card:hover {
           transform: translateY(-3px) scale(1.025);
           border-color: rgba(255, 230, 130, .95);
-          box-shadow:
-            0 0 20px rgba(255, 214, 90, .38),
-            0 10px 22px rgba(0,0,0,.34);
+          box-shadow: 0 0 20px rgba(255, 214, 90, .38), 0 10px 22px rgba(0,0,0,.34);
         }
 
         .cbwc-league {
@@ -318,44 +310,95 @@
           font-weight: 800;
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
           #cb-worldcup-widget {
-            width: calc(100% - 16px);
+            width: calc(100% - 14px);
             margin: 10px auto;
             padding: 10px;
             border-radius: 14px;
           }
 
+          .cbwc-header {
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 6px;
+          }
+
+          .cbwc-logo {
+            height: 32px;
+            max-width: 135px;
+          }
+
           .cbwc-title {
-            font-size: 15px;
+            font-size: 13px;
+            white-space: normal;
+            line-height: 1.2;
           }
 
           .cbwc-subtitle {
-            display: none;
+            font-size: 10px;
+            white-space: normal;
+            line-height: 1.25;
+          }
+
+          .cbwc-scroll {
+            gap: 9px;
           }
 
           .cbwc-card {
-            flex-basis: 222px;
+            flex: 0 0 214px;
             padding: 10px;
+            border-radius: 14px;
+          }
+
+          .cbwc-teams {
+            grid-template-columns: 1fr 32px 1fr;
+            min-height: 58px;
           }
 
           .cbwc-flag {
-            font-size: 24px;
+            font-size: 23px;
+          }
+
+          .cbwc-time {
+            font-size: 11px;
+          }
+
+          .cbwc-actions {
+            gap: 6px;
           }
 
           .cbwc-btn {
-            font-size: 10px;
-            min-height: 32px;
+            font-size: 9px;
+            min-height: 31px;
+            border-radius: 8px;
+          }
+        }
+
+        @media (max-width: 390px) {
+          .cbwc-card {
+            flex-basis: 205px;
+          }
+
+          .cbwc-logo {
+            height: 30px;
+            max-width: 125px;
+          }
+
+          .cbwc-title {
+            font-size: 12px;
           }
         }
       </style>
 
       <div class="cbwc-header">
         <div class="cbwc-title-wrap">
-          <div class="cbwc-icon">🏆</div>
-          <div class="cbwc-title">WORLD CUP MATCH CENTER</div>
+          <img class="cbwc-logo" src="${LOGO_URL}" alt="CLICKBET88">
+          <div class="cbwc-title-box">
+            <div class="cbwc-title">WORLD CUP MATCH CENTER</div>
+            <div class="cbwc-subtitle">Prediksi Skor • Bet Sport • Rebut Hadiah World Cup</div>
+          </div>
         </div>
-        <div class="cbwc-subtitle">Prediksi Skor & Dukung Tim Favoritmu</div>
       </div>
 
       ${
@@ -371,28 +414,20 @@
                 return `
                   <div class="cbwc-card">
                     <div class="cbwc-league">🏆 World Cup 2026</div>
-
                     <div class="cbwc-teams">
                       <div class="cbwc-team">
                         <span class="cbwc-flag">${getFlag(m.teamA)}</span>
                         ${teamA}
                       </div>
-
                       <div class="cbwc-vs">VS</div>
-
                       <div class="cbwc-team">
                         <span class="cbwc-flag">${getFlag(m.teamB)}</span>
                         ${teamB}
                       </div>
                     </div>
-
                     <div class="cbwc-time">${tanggal} • ${jam} WIB</div>
                     <div class="cbwc-group">${group}</div>
-
-                    <div class="cbwc-copy">
-                      Punya tiket World Cup? Prediksi skor & rebut hadiahnya.
-                    </div>
-
+                    <div class="cbwc-copy">Punya tiket World Cup? Prediksi skor & rebut hadiahnya.</div>
                     <div class="cbwc-actions">
                       <a class="cbwc-btn cbwc-prediksi" href="${PREDIKSI_LINK}" target="_blank" rel="noopener">PREDIKSI</a>
                       <a class="cbwc-btn cbwc-bet" href="${SBO_LINK}" target="_blank" rel="noopener">BET SEKARANG</a>
