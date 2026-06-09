@@ -310,70 +310,113 @@
           font-weight: 800;
         }
 
-        @media (max-width: 768px) {
-          #cb-worldcup-widget {
-            width: calc(100% - 14px);
-            margin: 10px auto;
-            padding: 10px;
-            border-radius: 14px;
-          }
+@media (max-width: 768px) {
+  #cb-worldcup-widget {
+    width: calc(100% - 14px);
+    margin: 10px auto;
+    padding: 10px;
+    border-radius: 16px;
+  }
 
-          .cbwc-header {
-            align-items: flex-start;
-            flex-direction: column;
-            gap: 6px;
-          }
+  .cbwc-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 6px;
+  }
 
-          .cbwc-logo {
-            height: 32px;
-            max-width: 135px;
-          }
+  .cbwc-logo {
+    height: 32px;
+    max-width: 135px;
+  }
 
-          .cbwc-title {
-            font-size: 13px;
-            white-space: normal;
-            line-height: 1.2;
-          }
+  .cbwc-title {
+    font-size: 14px;
+    white-space: normal;
+    line-height: 1.2;
+  }
 
-          .cbwc-subtitle {
-            font-size: 10px;
-            white-space: normal;
-            line-height: 1.25;
-          }
+  .cbwc-subtitle {
+    font-size: 10px;
+    white-space: normal;
+    line-height: 1.25;
+  }
 
-          .cbwc-scroll {
-            gap: 9px;
-          }
+  .cbwc-scroll {
+    gap: 12px;
+    padding: 6px 0 26px;
+    scroll-snap-type: x mandatory;
+  }
 
-          .cbwc-card {
-            flex: 0 0 214px;
-            padding: 10px;
-            border-radius: 14px;
-          }
+  .cbwc-scroll:after {
+    content: "GESER ➜";
+    position: sticky;
+    right: 6px;
+    bottom: 0;
+    align-self: flex-end;
+    min-width: 72px;
+    height: 24px;
+    padding: 5px 9px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, #ffe27a, #b57900);
+    color: #07102d;
+    font-size: 10px;
+    font-weight: 1000;
+    box-shadow: 0 0 12px rgba(255, 214, 90, .65);
+    z-index: 5;
+  }
 
-          .cbwc-teams {
-            grid-template-columns: 1fr 32px 1fr;
-            min-height: 58px;
-          }
+  .cbwc-card {
+    flex: 0 0 calc(100vw - 76px);
+    max-width: 330px;
+    min-width: 280px;
+    padding: 14px;
+    border-radius: 18px;
+    scroll-snap-align: center;
+  }
 
-          .cbwc-flag {
-            font-size: 23px;
-          }
+  .cbwc-teams {
+    grid-template-columns: 1fr 38px 1fr;
+    min-height: 68px;
+  }
 
-          .cbwc-time {
-            font-size: 11px;
-          }
+  .cbwc-flag {
+    font-size: 25px;
+  }
 
-          .cbwc-actions {
-            gap: 6px;
-          }
+  .cbwc-time {
+    font-size: 12px;
+  }
 
-          .cbwc-btn {
-            font-size: 9px;
-            min-height: 31px;
-            border-radius: 8px;
-          }
-        }
+  .cbwc-copy {
+    font-size: 11px;
+  }
+
+  .cbwc-actions {
+    gap: 8px;
+  }
+
+  .cbwc-btn {
+    font-size: 10px;
+    min-height: 36px;
+    border-radius: 9px;
+  }
+}
+
+@media (max-width: 390px) {
+  .cbwc-card {
+    flex-basis: calc(100vw - 68px);
+    min-width: 265px;
+  }
+
+  .cbwc-logo {
+    height: 30px;
+    max-width: 125px;
+  }
+
+  .cbwc-title {
+    font-size: 13px;
+  }
+}
 
         @media (max-width: 390px) {
           .cbwc-card {
