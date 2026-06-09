@@ -2,7 +2,7 @@
   const API_URL = "https://script.google.com/macros/s/AKfycbwtg26SSgLniBFMJ2jVc9ZVdSfsuQmk8_70w6KEtE_gR-qWBpyUlpB90GumTYDgQB-x/exec";
   const PREDIKSI_LINK = "https://click-lynk.com/CBEVNT2-FIFAWORLDCUP";
   const SBO_LINK = "https://click-lynk.com/SBO_CBWL";
-  const LOGO_URL = "https://clickbet88sedekahrejeki02.xyz/storage/webpersonalize/d54f5304-03b3-49f7-b283-e6fe0c595ca7.gif";
+  const LOGO_URL = "http://plcl.me/images/jCf3Y.png";
 
   const flags = {
     "Mexico": "🇲🇽",
