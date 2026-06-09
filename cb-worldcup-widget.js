@@ -2,57 +2,21 @@
   const API_URL = "https://script.google.com/macros/s/AKfycbwtg26SSgLniBFMJ2jVc9ZVdSfsuQmk8_70w6KEtE_gR-qWBpyUlpB90GumTYDgQB-x/exec";
   const PREDIKSI_LINK = "https://click-lynk.com/CBEVNT2-FIFAWORLDCUP";
   const SBO_LINK = "https://click-lynk.com/SBO_CBWL";
-  const LOGO_URL = "http://plcl.me/images/A3XC9.png";
+  const LOGO_URL = "https://plcl.me/images/A3XC9.png";
 
   const flags = {
-    "Mexico": "🇲🇽",
-    "South Africa": "🇿🇦",
-    "Korea Republic": "🇰🇷",
-    "Czechia": "🇨🇿",
-    "Canada": "🇨🇦",
-    "Bosnia and Herzegovina": "🇧🇦",
-    "United States": "🇺🇸",
-    "Paraguay": "🇵🇾",
-    "Qatar": "🇶🇦",
-    "Switzerland": "🇨🇭",
-    "Brazil": "🇧🇷",
-    "Morocco": "🇲🇦",
-    "Haiti": "🇭🇹",
-    "Scotland": "🏴",
-    "Australia": "🇦🇺",
-    "Turkiye": "🇹🇷",
-    "Germany": "🇩🇪",
-    "Curacao": "🇨🇼",
-    "Netherlands": "🇳🇱",
-    "Japan": "🇯🇵",
-    "Ivory Coast": "🇨🇮",
-    "Ecuador": "🇪🇨",
-    "Sweden": "🇸🇪",
-    "Tunisia": "🇹🇳",
-    "Spain": "🇪🇸",
-    "Cape Verde": "🇨🇻",
-    "Belgium": "🇧🇪",
-    "Egypt": "🇪🇬",
-    "Saudi Arabia": "🇸🇦",
-    "Uruguay": "🇺🇾",
-    "Iran": "🇮🇷",
-    "New Zealand": "🇳🇿",
-    "France": "🇫🇷",
-    "Senegal": "🇸🇳",
-    "Iraq": "🇮🇶",
-    "Norway": "🇳🇴",
-    "Argentina": "🇦🇷",
-    "Algeria": "🇩🇿",
-    "Austria": "🇦🇹",
-    "Jordan": "🇯🇴",
-    "Portugal": "🇵🇹",
-    "DR Congo": "🇨🇩",
-    "England": "🏴",
-    "Croatia": "🇭🇷",
-    "Ghana": "🇬🇭",
-    "Panama": "🇵🇦",
-    "Uzbekistan": "🇺🇿",
-    "Colombia": "🇨🇴"
+    "Mexico": "🇲🇽", "South Africa": "🇿🇦", "Korea Republic": "🇰🇷", "Czechia": "🇨🇿",
+    "Canada": "🇨🇦", "Bosnia and Herzegovina": "🇧🇦", "United States": "🇺🇸", "Paraguay": "🇵🇾",
+    "Qatar": "🇶🇦", "Switzerland": "🇨🇭", "Brazil": "🇧🇷", "Morocco": "🇲🇦",
+    "Haiti": "🇭🇹", "Scotland": "🏴", "Australia": "🇦🇺", "Turkiye": "🇹🇷",
+    "Germany": "🇩🇪", "Curacao": "🇨🇼", "Netherlands": "🇳🇱", "Japan": "🇯🇵",
+    "Ivory Coast": "🇨🇮", "Ecuador": "🇪🇨", "Sweden": "🇸🇪", "Tunisia": "🇹🇳",
+    "Spain": "🇪🇸", "Cape Verde": "🇨🇻", "Belgium": "🇧🇪", "Egypt": "🇪🇬",
+    "Saudi Arabia": "🇸🇦", "Uruguay": "🇺🇾", "Iran": "🇮🇷", "New Zealand": "🇳🇿",
+    "France": "🇫🇷", "Senegal": "🇸🇳", "Iraq": "🇮🇶", "Norway": "🇳🇴",
+    "Argentina": "🇦🇷", "Algeria": "🇩🇿", "Austria": "🇦🇹", "Jordan": "🇯🇴",
+    "Portugal": "🇵🇹", "DR Congo": "🇨🇩", "England": "🏴", "Croatia": "🇭🇷",
+    "Ghana": "🇬🇭", "Panama": "🇵🇦", "Uzbekistan": "🇺🇿", "Colombia": "🇨🇴"
   };
 
   function getFlag(name) {
@@ -85,11 +49,11 @@
           color: #fff;
           font-family: Arial, Helvetica, sans-serif;
           background:
-            radial-gradient(circle at 18% 0%, rgba(0, 102, 255, .34), transparent 35%),
-            radial-gradient(circle at 88% 12%, rgba(255, 215, 70, .25), transparent 32%),
-            linear-gradient(180deg, rgba(0, 12, 55, .74), rgba(0, 0, 0, .74));
-          border: 1px solid rgba(255, 214, 90, .55);
-          box-shadow: 0 0 22px rgba(0, 76, 255, .38), inset 0 0 18px rgba(255, 214, 90, .08);
+            radial-gradient(circle at 18% 0%, rgba(0,102,255,.34), transparent 35%),
+            radial-gradient(circle at 88% 12%, rgba(255,215,70,.25), transparent 32%),
+            linear-gradient(180deg, rgba(0,12,55,.74), rgba(0,0,0,.74));
+          border: 1px solid rgba(255,214,90,.55);
+          box-shadow: 0 0 22px rgba(0,76,255,.38), inset 0 0 18px rgba(255,214,90,.08);
           backdrop-filter: blur(8px);
           -webkit-backdrop-filter: blur(8px);
           box-sizing: border-box;
@@ -116,29 +80,25 @@
           z-index: 2;
           display: flex;
           align-items: center;
-          justify-content: space-between;
-          gap: 10px;
+          justify-content: center;
+          text-align: center;
           margin-bottom: 12px;
         }
 
         .cbwc-title-wrap {
           display: flex;
+          flex-direction: column;
           align-items: center;
-          gap: 12px;
-          min-width: 0;
+          gap: 4px;
+          width: 100%;
         }
 
         .cbwc-logo {
-          height: 42px;
+          height: 44px;
           width: auto;
-          max-width: 170px;
+          max-width: 190px;
           object-fit: contain;
-          flex-shrink: 0;
-          filter: drop-shadow(0 0 7px rgba(255,215,0,.6)) drop-shadow(0 0 12px rgba(0,102,255,.45));
-        }
-
-        .cbwc-title-box {
-          min-width: 0;
+          filter: drop-shadow(0 0 6px rgba(255,0,0,.6)) drop-shadow(0 0 12px rgba(255,215,0,.45));
         }
 
         .cbwc-title {
@@ -146,10 +106,7 @@
           font-weight: 900;
           letter-spacing: .4px;
           color: #ffd95b;
-          text-shadow: 0 0 12px rgba(255, 208, 66, .45);
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
+          text-shadow: 0 0 12px rgba(255,208,66,.45);
         }
 
         .cbwc-subtitle {
@@ -157,7 +114,6 @@
           font-weight: 700;
           color: #cfe3ff;
           opacity: .95;
-          white-space: nowrap;
         }
 
         .cbwc-scroll {
@@ -166,7 +122,7 @@
           display: flex;
           gap: 12px;
           overflow-x: auto;
-          padding: 4px 2px 8px;
+          padding: 8px 2px 12px;
           scroll-snap-type: x mandatory;
           -webkit-overflow-scrolling: touch;
         }
@@ -188,17 +144,17 @@
           text-align: center;
           position: relative;
           overflow: hidden;
-          background: linear-gradient(180deg, rgba(14, 37, 94, .86), rgba(3, 8, 26, .9));
-          border: 1px solid rgba(255, 214, 90, .65);
-          box-shadow: inset 0 0 16px rgba(255, 214, 90, .08), 0 8px 18px rgba(0,0,0,.28);
+          background: linear-gradient(180deg, rgba(14,37,94,.86), rgba(3,8,26,.9));
+          border: 1px solid rgba(255,214,90,.65);
+          box-shadow: inset 0 0 16px rgba(255,214,90,.08), 0 8px 18px rgba(0,0,0,.28);
           transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
           box-sizing: border-box;
         }
 
         .cbwc-card:hover {
           transform: translateY(-3px) scale(1.025);
-          border-color: rgba(255, 230, 130, .95);
-          box-shadow: 0 0 20px rgba(255, 214, 90, .38), 0 10px 22px rgba(0,0,0,.34);
+          border-color: rgba(255,230,130,.95);
+          box-shadow: 0 0 20px rgba(255,214,90,.38), 0 10px 22px rgba(0,0,0,.34);
         }
 
         .cbwc-league {
@@ -283,7 +239,7 @@
           color: #fff !important;
           font-size: 11px;
           font-weight: 1000;
-          border: 1px solid rgba(255, 214, 90, .75);
+          border: 1px solid rgba(255,214,90,.75);
           box-shadow: inset 0 1px 0 rgba(255,255,255,.25);
           transition: transform .18s ease, filter .18s ease;
         }
@@ -310,126 +266,106 @@
           font-weight: 800;
         }
 
-@media (max-width: 768px) {
-  #cb-worldcup-widget {
-    width: calc(100% - 14px);
-    margin: 10px auto;
-    padding: 10px;
-    border-radius: 16px;
-  }
-
-  .cbwc-header {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .cbwc-logo {
-    height: 32px;
-    max-width: 135px;
-  }
-
-  .cbwc-title {
-    font-size: 14px;
-    white-space: normal;
-    line-height: 1.2;
-  }
-
-  .cbwc-subtitle {
-    font-size: 10px;
-    white-space: normal;
-    line-height: 1.25;
-  }
-
-  .cbwc-scroll {
-    gap: 12px;
-    padding: 6px 0 26px;
-    scroll-snap-type: x mandatory;
-  }
-
-  .cbwc-scroll:after {
-    content: "GESER ➜";
-    position: sticky;
-    right: 6px;
-    bottom: 0;
-    align-self: flex-end;
-    min-width: 72px;
-    height: 24px;
-    padding: 5px 9px;
-    border-radius: 999px;
-    background: linear-gradient(180deg, #ffe27a, #b57900);
-    color: #07102d;
-    font-size: 10px;
-    font-weight: 1000;
-    box-shadow: 0 0 12px rgba(255, 214, 90, .65);
-    z-index: 5;
-  }
-
-  .cbwc-card {
-    flex: 0 0 calc(100vw - 76px);
-    max-width: 330px;
-    min-width: 280px;
-    padding: 14px;
-    border-radius: 18px;
-    scroll-snap-align: center;
-  }
-
-  .cbwc-teams {
-    grid-template-columns: 1fr 38px 1fr;
-    min-height: 68px;
-  }
-
-  .cbwc-flag {
-    font-size: 25px;
-  }
-
-  .cbwc-time {
-    font-size: 12px;
-  }
-
-  .cbwc-copy {
-    font-size: 11px;
-  }
-
-  .cbwc-actions {
-    gap: 8px;
-  }
-
-  .cbwc-btn {
-    font-size: 10px;
-    min-height: 36px;
-    border-radius: 9px;
-  }
-}
-
-@media (max-width: 390px) {
-  .cbwc-card {
-    flex-basis: calc(100vw - 68px);
-    min-width: 265px;
-  }
-
-  .cbwc-logo {
-    height: 30px;
-    max-width: 125px;
-  }
-
-  .cbwc-title {
-    font-size: 13px;
-  }
-}
-
-        @media (max-width: 390px) {
-          .cbwc-card {
-            flex-basis: 205px;
+        @media (max-width: 768px) {
+          #cb-worldcup-widget {
+            width: calc(100% - 16px);
+            margin: 10px auto;
+            padding: 10px;
+            border-radius: 16px;
           }
 
           .cbwc-logo {
-            height: 30px;
-            max-width: 125px;
+            height: 34px;
+            max-width: 145px;
           }
 
           .cbwc-title {
+            font-size: 14px;
+            line-height: 1.2;
+          }
+
+          .cbwc-subtitle {
+            font-size: 10px;
+            line-height: 1.25;
+          }
+
+          .cbwc-scroll {
+            gap: 10px;
+            padding: 8px 0 18px;
+          }
+
+          .cbwc-scroll:after {
+            content: "GESER ➜";
+            position: sticky;
+            right: 6px;
+            bottom: 0;
+            align-self: flex-end;
+            min-width: 70px;
+            height: 23px;
+            padding: 5px 8px;
+            border-radius: 999px;
+            background: linear-gradient(180deg, #ffe27a, #b57900);
+            color: #07102d;
+            font-size: 10px;
+            font-weight: 1000;
+            box-shadow: 0 0 12px rgba(255,214,90,.65);
+            z-index: 5;
+            animation: cbwcPulse 1.2s infinite;
+          }
+
+          @keyframes cbwcPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+            100% { transform: scale(1); }
+          }
+
+          .cbwc-card {
+            flex: 0 0 88%;
+            max-width: 88%;
+            min-width: 88%;
+            padding: 14px;
+            border-radius: 18px;
+            scroll-snap-align: center;
+          }
+
+          .cbwc-teams {
+            grid-template-columns: 1fr 38px 1fr;
+            min-height: 68px;
+          }
+
+          .cbwc-flag {
+            font-size: 25px;
+          }
+
+          .cbwc-time {
             font-size: 12px;
+          }
+
+          .cbwc-copy {
+            font-size: 11px;
+          }
+
+          .cbwc-btn {
+            font-size: 10px;
+            min-height: 36px;
+            border-radius: 9px;
+          }
+        }
+
+        @media (max-width: 390px) {
+          .cbwc-card {
+            flex-basis: 90%;
+            max-width: 90%;
+            min-width: 90%;
+          }
+
+          .cbwc-logo {
+            height: 32px;
+            max-width: 135px;
+          }
+
+          .cbwc-title {
+            font-size: 13px;
           }
         }
       </style>
@@ -437,10 +373,8 @@
       <div class="cbwc-header">
         <div class="cbwc-title-wrap">
           <img class="cbwc-logo" src="${LOGO_URL}" alt="CLICKBET88">
-          <div class="cbwc-title-box">
-            <div class="cbwc-title">WORLD CUP MATCH CENTER</div>
-            <div class="cbwc-subtitle">Prediksi Skor • Bet Sport • Rebut Hadiah World Cup</div>
-          </div>
+          <div class="cbwc-title">WORLD CUP MATCH CENTER</div>
+          <div class="cbwc-subtitle">Prediksi Skor • Bet Sport • Rebut Hadiah World Cup</div>
         </div>
       </div>
 
@@ -456,7 +390,7 @@
 
                 return `
                   <div class="cbwc-card">
-                    <div class="cbwc-league">🏆 World Cup 2026</div>
+                    <div class="cbwc-league">🏆 WORLD CUP 2026</div>
                     <div class="cbwc-teams">
                       <div class="cbwc-team">
                         <span class="cbwc-flag">${getFlag(m.teamA)}</span>
