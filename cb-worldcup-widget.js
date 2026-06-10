@@ -412,19 +412,26 @@
     return null;
   }
 
-  function insertWidget(widget) {
-    if (document.getElementById("cb-worldcup-widget")) return;
+ function insertWidget(widget) {
+  if (document.getElementById("cb-worldcup-widget")) return;
 
-    const target = findInsertTarget();
+  const providerBar =
+    document.querySelector('[class*="provider"]') ||
+    document.querySelector('[class*="Provider"]') ||
+    document.querySelector('[class*="TopGames"]');
 
-    if (target && target.parentNode) {
-      target.parentNode.insertBefore(widget, target.nextSibling);
-      return;
-    }
-
-    const page = document.querySelector("#page-wrap") || document.querySelector("main") || document.body;
-    page.prepend(widget);
+  if (providerBar && providerBar.parentNode) {
+    providerBar.parentNode.insertBefore(widget, providerBar);
+    return;
   }
+
+  const page =
+    document.querySelector("#page-wrap") ||
+    document.querySelector("main") ||
+    document.body;
+
+  page.prepend(widget);
+}
 
   function attachButtons(widget) {
     const scrollBox = widget.querySelector(".cbwc-scroll");
