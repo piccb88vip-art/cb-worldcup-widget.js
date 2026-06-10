@@ -7,15 +7,12 @@
     "Canada": "ca", "Bosnia and Herzegovina": "ba", "United States": "us", "USA": "us",
     "Paraguay": "py", "Qatar": "qa", "Switzerland": "ch", "Brazil": "br",
     "Morocco": "ma", "Haiti": "ht", "Scotland": "gb-sct", "Australia": "au",
-    "Turkiye": "tr", "Turkey": "tr", "Germany": "de", "Curacao": "cw",
     "Netherlands": "nl", "Japan": "jp", "Ivory Coast": "ci", "Ecuador": "ec",
     "Sweden": "se", "Tunisia": "tn", "Spain": "es", "Cape Verde": "cv",
     "Belgium": "be", "Egypt": "eg", "Saudi Arabia": "sa", "Uruguay": "uy",
     "Iran": "ir", "New Zealand": "nz", "France": "fr", "Senegal": "sn",
-    "Iraq": "iq", "Norway": "no", "Argentina": "ar", "Algeria": "dz",
-    "Austria": "at", "Jordan": "jo", "Portugal": "pt", "DR Congo": "cd",
-    "England": "gb-eng", "Croatia": "hr", "Ghana": "gh", "Panama": "pa",
-    "Uzbekistan": "uz", "Colombia": "co"
+    "Argentina": "ar", "Portugal": "pt", "England": "gb-eng", "Croatia": "hr",
+    "Ghana": "gh", "Panama": "pa", "Uzbekistan": "uz", "Colombia": "co"
   };
 
   function escapeHtml(text) {
@@ -28,20 +25,19 @@
   }
 
   function shortName(name) {
-    const map = {
+    return {
       "Korea Republic": "South Korea",
       "Bosnia and Herzegovina": "Bosnia & Her...",
       "United States": "USA"
-    };
-    return map[name] || name;
+    }[name] || name;
   }
 
   function getFlag(name) {
     const team = String(name || "").trim();
     const code = flagCodes[team];
-    if (!code) return `<span class="cbwc-ball">⚽</span>`;
-
-    return `<img class="cbwc-flag-img" src="https://flagcdn.com/w40/${code}.png" alt="${escapeHtml(team)}" loading="lazy">`;
+    return code
+      ? `<img class="cbwc-flag-img" src="https://flagcdn.com/w40/${code}.png" alt="${escapeHtml(team)}" loading="lazy">`
+      : `<span class="cbwc-ball">⚽</span>`;
   }
 
   function makeOdd(i, side) {
@@ -59,7 +55,7 @@
         #cb-worldcup-widget {
           width: calc(100% - 16px);
           max-width: 1485px;
-          margin: 10px auto 14px;
+          margin: 12px auto 14px;
           padding: 16px 18px 14px;
           border-radius: 8px;
           color: #fff;
@@ -92,14 +88,12 @@
           background: radial-gradient(circle, #2b6dff, #06183d);
           border: 1px solid rgba(100,165,255,.8);
           font-size: 14px;
-          box-shadow: 0 0 10px rgba(60,130,255,.35);
         }
 
         .cbwc-heading {
           font-size: 17px;
           font-weight: 900;
           color: #fff;
-          text-shadow: 0 1px 2px #000;
         }
 
         .cbwc-brand {
@@ -125,27 +119,18 @@
         }
 
         .cbwc-scroll::-webkit-scrollbar { height: 6px; }
-
-        .cbwc-scroll::-webkit-scrollbar-track {
-          background: rgba(255,255,255,.12);
-          border-radius: 999px;
-        }
-
-        .cbwc-scroll::-webkit-scrollbar-thumb {
-          background: linear-gradient(90deg, #155dcb, #7db5ff);
-          border-radius: 999px;
-        }
+        .cbwc-scroll::-webkit-scrollbar-track { background: rgba(255,255,255,.12); border-radius: 999px; }
+        .cbwc-scroll::-webkit-scrollbar-thumb { background: linear-gradient(90deg, #155dcb, #7db5ff); border-radius: 999px; }
 
         .cbwc-card {
           flex: 0 0 218px;
           min-height: 154px;
-          padding: 9px 9px 8px;
+          padding: 9px;
           border-radius: 7px;
           background: linear-gradient(180deg, #12336d, #071b3d);
           border: 1px solid rgba(90,155,255,.32);
           scroll-snap-align: start;
           color: #fff;
-          cursor: pointer;
           text-decoration: none;
         }
 
@@ -155,7 +140,6 @@
           font-size: 6px;
           font-weight: 900;
           color: #8fc2ff;
-          text-transform: uppercase;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -165,14 +149,10 @@
         .cbwc-match {
           display: grid;
           grid-template-columns: 1fr 54px 1fr;
-          align-items: start;
           gap: 5px;
         }
 
-        .cbwc-team {
-          min-width: 0;
-          text-align: center;
-        }
+        .cbwc-team { text-align: center; min-width: 0; }
 
         .cbwc-flag-img {
           width: 29px;
@@ -181,18 +161,10 @@
           border-radius: 2px;
           display: block;
           margin: 0 auto 5px;
-          box-shadow: 0 0 4px rgba(0,0,0,.55);
-        }
-
-        .cbwc-ball {
-          display: block;
-          font-size: 18px;
-          margin-bottom: 5px;
         }
 
         .cbwc-name {
           display: block;
-          color: #fff;
           font-size: 7px;
           font-weight: 800;
           white-space: nowrap;
@@ -200,36 +172,16 @@
           text-overflow: ellipsis;
         }
 
-        .cbwc-mid {
-          text-align: center;
-          padding-top: 2px;
-        }
-
-        .cbwc-date {
-          font-size: 7px;
-          color: rgba(255,255,255,.45);
-          margin-bottom: 2px;
-        }
-
-        .cbwc-time {
-          font-size: 11px;
-          font-weight: 900;
-          color: #fff;
-          letter-spacing: .5px;
-        }
-
-        .cbwc-live {
-          font-size: 9px;
-          color: rgba(255,255,255,.35);
-          margin-top: 3px;
-        }
+        .cbwc-mid { text-align: center; padding-top: 2px; }
+        .cbwc-date { font-size: 7px; color: rgba(255,255,255,.45); }
+        .cbwc-time { font-size: 11px; font-weight: 900; }
+        .cbwc-live { font-size: 9px; color: rgba(255,255,255,.35); margin-top: 3px; }
 
         .cbwc-market {
           margin-top: 13px;
           text-align: center;
           font-size: 7px;
           font-weight: 900;
-          color: #fff;
         }
 
         .cbwc-odds {
@@ -247,19 +199,8 @@
           padding: 5px 6px;
         }
 
-        .cbwc-odd-label {
-          font-size: 6px;
-          color: rgba(255,255,255,.35);
-          margin-bottom: 3px;
-        }
-
-        .cbwc-odd-num {
-          font-size: 13px;
-          line-height: 13px;
-          font-weight: 1000;
-          color: #fff;
-          letter-spacing: .5px;
-        }
+        .cbwc-odd-label { font-size: 6px; color: rgba(255,255,255,.35); }
+        .cbwc-odd-num { font-size: 13px; font-weight: 1000; color: #fff; }
 
         .cbwc-nav {
           position: absolute;
@@ -276,138 +217,106 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          box-shadow: 0 0 14px rgba(40,120,255,.34);
           z-index: 8;
           cursor: pointer;
           padding: 0;
-          line-height: 1;
         }
 
         .cbwc-prev { left: 0; }
         .cbwc-next { right: 0; }
 
         @media (max-width: 768px) {
-          #cb-worldcup-widget {
-            width: calc(100% - 10px);
-            padding: 12px 10px;
-          }
-
-          .cbwc-heading { font-size: 15px; }
+          #cb-worldcup-widget { width: calc(100% - 10px); padding: 12px 10px; }
           .cbwc-scroll-wrap { padding: 0 32px; }
           .cbwc-card { flex: 0 0 214px; }
-
-          .cbwc-nav {
-            width: 30px;
-            height: 42px;
-            font-size: 24px;
-          }
+          .cbwc-heading { font-size: 15px; }
         }
       </style>
 
       <div class="cbwc-top">
         <div class="cbwc-icon">🏆</div>
-        <div class="cbwc-heading">
-          Rekomendasi Pertandingan <span class="cbwc-brand">CLICKBET88</span>
-        </div>
+        <div class="cbwc-heading">Rekomendasi Pertandingan <span class="cbwc-brand">CLICKBET88</span></div>
       </div>
 
-      ${
-        matches && matches.length
-          ? `
-            <div class="cbwc-scroll-wrap">
-              <button class="cbwc-nav cbwc-prev" type="button">‹</button>
+      <div class="cbwc-scroll-wrap">
+        <button class="cbwc-nav cbwc-prev" type="button">‹</button>
 
-              <div class="cbwc-scroll">
-                ${matches.slice(0, 30).map(function (m, i) {
-                  const aRaw = String(m.teamA || "");
-                  const bRaw = String(m.teamB || "");
+        <div class="cbwc-scroll">
+          ${(matches || []).slice(0, 30).map(function (m, i) {
+            const aRaw = String(m.teamA || "");
+            const bRaw = String(m.teamB || "");
 
-                  return `
-                    <a class="cbwc-card" href="${SBO_LINK}" target="_blank" rel="noopener">
-                      <div class="cbwc-league">🏆 WORLD CUP 2026 (IN CANADA, MEXICO & USA)</div>
+            return `
+              <a class="cbwc-card" href="${SBO_LINK}" target="_blank" rel="noopener">
+                <div class="cbwc-league">🏆 WORLD CUP 2026 (IN CANADA, MEXICO & USA)</div>
 
-                      <div class="cbwc-match">
-                        <div class="cbwc-team">
-                          ${getFlag(aRaw)}
-                          <span class="cbwc-name">${escapeHtml(shortName(aRaw))}</span>
-                        </div>
+                <div class="cbwc-match">
+                  <div class="cbwc-team">
+                    ${getFlag(aRaw)}
+                    <span class="cbwc-name">${escapeHtml(shortName(aRaw))}</span>
+                  </div>
 
-                        <div class="cbwc-mid">
-                          <div class="cbwc-date">${escapeHtml(m.tanggal || "")}</div>
-                          <div class="cbwc-time">${escapeHtml(m.jam || "")}<br>WIB</div>
-                          <div class="cbwc-live">⚽</div>
-                        </div>
+                  <div class="cbwc-mid">
+                    <div class="cbwc-date">${escapeHtml(m.tanggal || "")}</div>
+                    <div class="cbwc-time">${escapeHtml(m.jam || "")}<br>WIB</div>
+                    <div class="cbwc-live">⚽</div>
+                  </div>
 
-                        <div class="cbwc-team">
-                          ${getFlag(bRaw)}
-                          <span class="cbwc-name">${escapeHtml(shortName(bRaw))}</span>
-                        </div>
-                      </div>
+                  <div class="cbwc-team">
+                    ${getFlag(bRaw)}
+                    <span class="cbwc-name">${escapeHtml(shortName(bRaw))}</span>
+                  </div>
+                </div>
 
-                      <div class="cbwc-market">FT Handicap</div>
+                <div class="cbwc-market">FT Handicap</div>
 
-                      <div class="cbwc-odds">
-                        <div class="cbwc-odd">
-                          <div class="cbwc-odd-label">Home 0</div>
-                          <div class="cbwc-odd-num">${makeOdd(i, "home")}</div>
-                        </div>
+                <div class="cbwc-odds">
+                  <div class="cbwc-odd">
+                    <div class="cbwc-odd-label">Home 0</div>
+                    <div class="cbwc-odd-num">${makeOdd(i, "home")}</div>
+                  </div>
+                  <div class="cbwc-odd">
+                    <div class="cbwc-odd-label">Away 0</div>
+                    <div class="cbwc-odd-num">${makeOdd(i, "away")}</div>
+                  </div>
+                </div>
+              </a>
+            `;
+          }).join("")}
+        </div>
 
-                        <div class="cbwc-odd">
-                          <div class="cbwc-odd-label">Away 0</div>
-                          <div class="cbwc-odd-num">${makeOdd(i, "away")}</div>
-                        </div>
-                      </div>
-                    </a>
-                  `;
-                }).join("")}
-              </div>
-
-              <button class="cbwc-nav cbwc-next" type="button">›</button>
-            </div>
-          `
-          : `<div style="padding:16px;text-align:center;font-weight:800;">Belum ada jadwal pertandingan aktif.</div>`
-      }
+        <button class="cbwc-nav cbwc-next" type="button">›</button>
+      </div>
     `;
 
     return section;
   }
 
-  function findProviderTarget() {
-    const candidates = [
-      '[class*="provider"]',
-      '[class*="Provider"]',
-      '[class*="TopGames"]',
-      '[class*="top-games"]',
-      '[class*="game-provider"]',
-      '[class*="GameProvider"]'
-    ];
+  function findTopGamesBar() {
+    const all = Array.from(document.querySelectorAll("div, section, nav"));
 
-    for (let i = 0; i < candidates.length; i++) {
-      const el = document.querySelector(candidates[i]);
-      if (el && el.parentNode && el.offsetHeight > 20 && el.offsetWidth > 300) {
-        return el;
-      }
-    }
-
-    const all = Array.from(document.querySelectorAll("div, section"));
-    return all.find(function (el) {
-      const txt = (el.innerText || "").toLowerCase();
-      return txt.includes("top games") && el.offsetWidth > 300 && el.offsetHeight > 40;
+    const exact = all.find(function (el) {
+      const text = (el.innerText || "").trim();
+      const rect = el.getBoundingClientRect();
+      return text.includes("Top Games") && rect.width > 600 && rect.height >= 40 && rect.height <= 120;
     });
+
+    if (exact) return exact;
+
+    return null;
   }
 
   function insertWidget(widget) {
-    if (document.getElementById("cb-worldcup-widget")) return;
+    if (document.getElementById("cb-worldcup-widget")) return false;
 
-    const provider = findProviderTarget();
+    const topGames = findTopGamesBar();
 
-    if (provider && provider.parentNode) {
-      provider.parentNode.insertBefore(widget, provider);
-      return;
+    if (topGames && topGames.parentNode) {
+      topGames.parentNode.insertBefore(widget, topGames);
+      return true;
     }
 
-    const page = document.querySelector("#page-wrap") || document.querySelector("main") || document.body;
-    page.prepend(widget);
+    return false;
   }
 
   function attachButtons(widget) {
@@ -417,23 +326,49 @@
 
     if (!scrollBox) return;
 
-    nextBtn && nextBtn.addEventListener("click", function () {
-      scrollBox.scrollBy({ left: 460, behavior: "smooth" });
-    });
+    if (nextBtn) {
+      nextBtn.onclick = function () {
+        scrollBox.scrollBy({ left: 460, behavior: "smooth" });
+      };
+    }
 
-    prevBtn && prevBtn.addEventListener("click", function () {
-      scrollBox.scrollBy({ left: -460, behavior: "smooth" });
-    });
+    if (prevBtn) {
+      prevBtn.onclick = function () {
+        scrollBox.scrollBy({ left: -460, behavior: "smooth" });
+      };
+    }
+  }
+
+  function start(matches) {
+    let tries = 0;
+
+    const timer = setInterval(function () {
+      tries++;
+
+      if (document.getElementById("cb-worldcup-widget")) {
+        clearInterval(timer);
+        return;
+      }
+
+      const widget = buildWidget(matches);
+      const ok = insertWidget(widget);
+
+      if (ok) {
+        attachButtons(widget);
+        clearInterval(timer);
+      }
+
+      if (tries >= 40) {
+        clearInterval(timer);
+      }
+    }, 500);
   }
 
   function init() {
     fetch(API_URL + "?t=" + Date.now())
       .then(function (r) { return r.json(); })
       .then(function (res) {
-        const matches = res.matches || res.data || [];
-        const widget = buildWidget(matches);
-        insertWidget(widget);
-        attachButtons(widget);
+        start(res.matches || res.data || []);
       })
       .catch(function (err) {
         console.log("CB World Cup Widget Error:", err);
@@ -443,6 +378,6 @@
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);
   } else {
-    setTimeout(init, 800);
+    init();
   }
 })();
