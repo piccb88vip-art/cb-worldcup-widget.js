@@ -2,7 +2,6 @@
   const API_URL = "https://script.google.com/macros/s/AKfycbwtg26SSgLniBFMJ2jVc9ZVdSfsuQmk8_70w6KEtE_gR-qWBpyUlpB90GumTYDgQB-x/exec";
   const PREDIKSI_LINK = "https://click-lynk.com/CBEVNT2-FIFAWORLDCUP";
   const SBO_LINK = "https://click-lynk.com/SBO_CBWL";
-  const LOGO_URL = "http://plcl.me/images/pNkYX.png";
 
   const flagCodes = {
     "Mexico": "mx",
@@ -66,22 +65,36 @@
       .replace(/'/g, "&#039;");
   }
 
+  function shortName(name) {
+    const map = {
+      "Korea Republic": "South Korea",
+      "Bosnia and Herzegovina": "Bosnia & Her...",
+      "United States": "USA"
+    };
+    return map[name] || name;
+  }
+
   function getFlag(name) {
     const team = String(name || "").trim();
     const code = flagCodes[team];
 
-    if (!code) {
-      return `<span class="cbwc-ball">⚽</span>`;
-    }
+    if (!code) return `<span class="cbwc-ball">⚽</span>`;
 
     return `
       <img
         class="cbwc-flag-img"
-        src="https://flagcdn.com/w80/${code}.png"
+        src="https://flagcdn.com/w40/${code}.png"
         alt="${escapeHtml(team)}"
         loading="lazy"
       >
     `;
+  }
+
+  function makeOdd(i, side) {
+    const home = [0.82, 0.80, 0.78, -0.95, 0.65, -0.86, 0.85, 0.72];
+    const away = [-0.92, -0.90, -0.88, 0.85, -0.75, 0.76, -0.95, -0.82];
+    const arr = side === "home" ? home : away;
+    return arr[i % arr.length];
   }
 
   function buildWidget(matches) {
@@ -91,21 +104,17 @@
     section.innerHTML = `
       <style>
         #cb-worldcup-widget {
-          width: calc(100% - 24px);
-          max-width: 1360px;
-          margin: 14px auto;
-          padding: 14px;
-          border-radius: 18px;
-          position: relative;
-          overflow: hidden;
+          width: calc(100% - 16px);
+          max-width: 1485px;
+          margin: 10px auto;
+          padding: 16px 18px 14px;
+          border-radius: 8px;
           color: #fff;
           font-family: Arial, Helvetica, sans-serif;
-          background:
-            radial-gradient(circle at 18% 0%, rgba(0,102,255,.34), transparent 35%),
-            radial-gradient(circle at 88% 12%, rgba(255,215,70,.25), transparent 32%),
-            linear-gradient(180deg, rgba(0,12,55,.78), rgba(0,0,0,.82));
-          border: 1px solid rgba(255,214,90,.55);
-          box-shadow: 0 0 22px rgba(0,76,255,.38), inset 0 0 18px rgba(255,214,90,.08);
+          background: linear-gradient(180deg, #191504, #090805);
+          box-shadow: inset 0 0 0 1px rgba(255,196,45,.08);
+          position: relative;
+          overflow: hidden;
           box-sizing: border-box;
         }
 
@@ -113,381 +122,311 @@
           box-sizing: border-box;
         }
 
-        #cb-worldcup-widget:before {
-          content: "";
-          position: absolute;
-          inset: 0;
-          background-image: linear-gradient(120deg, transparent 0%, rgba(255,255,255,.12) 45%, transparent 55%);
-          transform: translateX(-120%);
-          animation: cbwcShine 5s infinite;
-          pointer-events: none;
-        }
-
-        @keyframes cbwcShine {
-          0% { transform: translateX(-120%); }
-          45% { transform: translateX(120%); }
-          100% { transform: translateX(120%); }
-        }
-
-        .cbwc-header {
-          position: relative;
-          z-index: 2;
-          text-align: center;
+        .cbwc-top {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding-bottom: 14px;
+          border-bottom: 1px solid rgba(255,208,64,.28);
           margin-bottom: 12px;
         }
 
-        .cbwc-logo {
-          height: 44px;
-          width: auto;
-          max-width: 190px;
-          object-fit: contain;
-          filter: drop-shadow(0 0 6px rgba(255,0,0,.6)) drop-shadow(0 0 12px rgba(255,215,0,.45));
+        .cbwc-icon {
+          width: 26px;
+          height: 26px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: radial-gradient(circle, #2446ff, #050934);
+          border: 1px solid #caa12b;
+          font-size: 14px;
+          box-shadow: 0 0 10px rgba(255,207,58,.25);
         }
 
-        .cbwc-title {
-          margin-top: 4px;
+        .cbwc-heading {
           font-size: 17px;
           font-weight: 900;
-          letter-spacing: .4px;
-          color: #ffd95b;
-          text-shadow: 0 0 12px rgba(255,208,66,.45);
+          color: #fff;
+          text-shadow: 0 1px 2px #000;
         }
 
-        .cbwc-subtitle {
-          font-size: 12px;
-          font-weight: 700;
-          color: #cfe3ff;
+        .cbwc-scroll-wrap {
+          position: relative;
         }
 
         .cbwc-scroll {
-          position: relative;
-          z-index: 2;
           display: flex;
-          gap: 12px;
+          gap: 8px;
           overflow-x: auto;
-          padding: 8px 4px 16px;
+          overflow-y: hidden;
+          padding: 0 0 2px;
           scroll-snap-type: x mandatory;
           -webkit-overflow-scrolling: touch;
         }
 
         .cbwc-scroll::-webkit-scrollbar {
-          height: 9px;
-        }
-
-        .cbwc-scroll::-webkit-scrollbar-track {
-          background: rgba(255,255,255,.13);
-          border-radius: 999px;
-        }
-
-        .cbwc-scroll::-webkit-scrollbar-thumb {
-          background: linear-gradient(90deg, #005cff, #ffd45a);
-          border-radius: 999px;
-          box-shadow: 0 0 10px rgba(255,214,90,.75);
+          height: 0;
         }
 
         .cbwc-card {
-          flex: 0 0 250px;
+          flex: 0 0 218px;
+          min-height: 154px;
+          padding: 9px 9px 8px;
+          border-radius: 7px;
+          background: linear-gradient(180deg, #4c3d04, #382d04);
+          border: 1px solid rgba(255,217,76,.22);
           scroll-snap-align: start;
-          border-radius: 16px;
-          padding: 12px;
-          text-align: center;
           position: relative;
-          overflow: hidden;
-          background: linear-gradient(180deg, rgba(14,37,94,.88), rgba(3,8,26,.94));
-          border: 1px solid rgba(255,214,90,.65);
-          box-shadow: inset 0 0 16px rgba(255,214,90,.08), 0 8px 18px rgba(0,0,0,.28);
-          transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+          color: #fff;
+          cursor: pointer;
+          text-decoration: none;
         }
 
         .cbwc-card:hover {
-          transform: translateY(-3px) scale(1.025);
-          border-color: rgba(255,230,130,.95);
-          box-shadow: 0 0 20px rgba(255,214,90,.38), 0 10px 22px rgba(0,0,0,.34);
+          filter: brightness(1.1);
+        }
+
+        .cbwc-card:after {
+          content: "›";
+          position: absolute;
+          top: 7px;
+          right: 8px;
+          color: #ffe45f;
+          font-size: 16px;
+          font-weight: 900;
         }
 
         .cbwc-league {
-          font-size: 10px;
+          font-size: 6px;
           font-weight: 900;
-          color: #ffd95b;
-          margin-bottom: 10px;
+          color: #ffc928;
           text-transform: uppercase;
-          letter-spacing: .3px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          padding-right: 16px;
+          margin-bottom: 8px;
         }
 
-        .cbwc-teams {
+        .cbwc-match {
           display: grid;
-          grid-template-columns: 1fr 38px 1fr;
+          grid-template-columns: 1fr 54px 1fr;
           align-items: start;
-          gap: 6px;
-          min-height: 76px;
+          gap: 5px;
         }
 
         .cbwc-team {
           min-width: 0;
-          font-size: 12px;
-          font-weight: 900;
-          color: #fff;
-          line-height: 1.15;
-          word-break: normal;
-          overflow-wrap: break-word;
+          text-align: center;
         }
 
         .cbwc-flag-img {
-          display: block;
-          width: 42px;
-          height: 28px;
+          width: 29px;
+          height: 20px;
           object-fit: cover;
-          margin: 0 auto 7px;
-          border-radius: 4px;
-          box-shadow: 0 0 8px rgba(255,255,255,.28);
-          background: rgba(255,255,255,.08);
+          border-radius: 2px;
+          display: block;
+          margin: 0 auto 5px;
+          box-shadow: 0 0 4px rgba(0,0,0,.55);
         }
 
         .cbwc-ball {
           display: block;
-          font-size: 26px;
-          margin-bottom: 7px;
+          font-size: 18px;
+          margin-bottom: 5px;
         }
 
-        .cbwc-vs {
-          padding-top: 30px;
-          font-size: 13px;
-          font-weight: 1000;
-          color: #ffd95b;
-          text-shadow: 0 0 10px rgba(255,217,91,.55);
+        .cbwc-name {
+          display: block;
+          color: #fff;
+          font-size: 7px;
+          font-weight: 800;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .cbwc-mid {
+          text-align: center;
+          padding-top: 2px;
+        }
+
+        .cbwc-date {
+          font-size: 7px;
+          color: rgba(255,255,255,.38);
+          margin-bottom: 2px;
         }
 
         .cbwc-time {
-          margin: 10px 0 7px;
-          font-size: 13px;
+          font-size: 11px;
+          font-weight: 900;
+          color: #fff;
+          letter-spacing: .5px;
+        }
+
+        .cbwc-live {
+          font-size: 9px;
+          color: rgba(255,255,255,.35);
+          margin-top: 3px;
+        }
+
+        .cbwc-market {
+          margin-top: 13px;
+          text-align: center;
+          font-size: 7px;
           font-weight: 900;
           color: #fff;
         }
 
-        .cbwc-group {
-          display: inline-block;
-          margin-bottom: 12px;
-          padding: 4px 10px;
-          border-radius: 999px;
-          font-size: 10px;
-          font-weight: 900;
-          color: #d8e8ff;
-          background: rgba(255,255,255,.08);
-          border: 1px solid rgba(255,255,255,.12);
-        }
-
-        .cbwc-copy {
-          font-size: 10px;
-          color: #cfe3ff;
-          line-height: 1.35;
-          margin: 0 0 10px;
-          min-height: 28px;
-        }
-
-        .cbwc-actions {
+        .cbwc-odds {
+          margin-top: 8px;
           display: grid;
           grid-template-columns: 1fr 1fr;
-          gap: 8px;
+          gap: 5px;
         }
 
-        .cbwc-btn {
+        .cbwc-odd {
+          height: 36px;
+          border-radius: 4px;
+          background: rgba(255,255,255,.06);
+          border: 1px solid rgba(255,219,75,.12);
+          padding: 5px 6px;
+        }
+
+        .cbwc-odd-label {
+          font-size: 6px;
+          color: rgba(255,255,255,.32);
+          margin-bottom: 3px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .cbwc-odd-num {
+          font-size: 13px;
+          line-height: 13px;
+          font-weight: 1000;
+          color: #fff;
+          letter-spacing: .5px;
+        }
+
+        .cbwc-next {
+          position: absolute;
+          right: 8px;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 34px;
+          height: 34px;
+          border-radius: 50%;
+          border: 1px solid rgba(255,207,45,.55);
+          background: #050505;
+          color: #ffd42f;
+          font-size: 26px;
+          font-weight: 900;
           display: flex;
           align-items: center;
           justify-content: center;
-          min-height: 34px;
-          border-radius: 10px;
-          text-decoration: none;
-          color: #fff !important;
-          font-size: 11px;
-          font-weight: 1000;
-          border: 1px solid rgba(255,214,90,.75);
-          box-shadow: inset 0 1px 0 rgba(255,255,255,.25);
-          transition: transform .18s ease, filter .18s ease;
-          white-space: nowrap;
-        }
-
-        .cbwc-btn:hover {
-          transform: scale(1.04);
-          filter: brightness(1.16);
-        }
-
-        .cbwc-prediksi {
-          background: linear-gradient(180deg, #1266ff, #082f9f);
-        }
-
-        .cbwc-bet {
-          background: linear-gradient(180deg, #ffb400, #b36b00);
+          box-shadow: 0 0 16px rgba(255,207,45,.24);
+          z-index: 5;
+          pointer-events: none;
         }
 
         .cbwc-empty {
-          position: relative;
-          z-index: 2;
-          padding: 14px;
+          padding: 16px;
           text-align: center;
-          color: #fff;
+          font-size: 13px;
           font-weight: 800;
+          color: #fff;
         }
 
         @media (max-width: 768px) {
           #cb-worldcup-widget {
-            width: calc(100% - 14px);
-            margin: 10px auto;
-            padding: 10px;
-            border-radius: 16px;
+            width: calc(100% - 10px);
+            padding: 12px 10px;
+            margin: 8px auto;
           }
 
-          .cbwc-logo {
-            height: 34px;
-            max-width: 145px;
-          }
-
-          .cbwc-title {
-            font-size: 14px;
-            line-height: 1.2;
-          }
-
-          .cbwc-subtitle {
-            font-size: 10px;
-            line-height: 1.25;
-          }
-
-          .cbwc-scroll {
-            gap: 10px;
-            padding: 8px 2px 22px;
-          }
-
-          .cbwc-scroll:after {
-            content: "GESER ➜";
-            position: sticky;
-            right: 6px;
-            bottom: 0;
-            align-self: flex-end;
-            min-width: 74px;
-            height: 24px;
-            padding: 6px 9px;
-            border-radius: 999px;
-            background: linear-gradient(180deg, #ffe27a, #b57900);
-            color: #07102d;
-            font-size: 10px;
-            font-weight: 1000;
-            box-shadow: 0 0 14px rgba(255,214,90,.75);
-            z-index: 5;
-            animation: cbwcPulse 1.2s infinite;
-          }
-
-          @keyframes cbwcPulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.08); }
-            100% { transform: scale(1); }
+          .cbwc-heading {
+            font-size: 15px;
           }
 
           .cbwc-card {
-            flex: 0 0 88%;
-            max-width: 88%;
-            min-width: 88%;
-            padding: 14px;
-            border-radius: 18px;
-            scroll-snap-align: center;
+            flex: 0 0 214px;
           }
 
-          .cbwc-teams {
-            grid-template-columns: 1fr 36px 1fr;
-            min-height: 80px;
-          }
-
-          .cbwc-flag-img {
-            width: 44px;
-            height: 29px;
-          }
-
-          .cbwc-vs {
-            padding-top: 31px;
-          }
-
-          .cbwc-time {
-            font-size: 12px;
-          }
-
-          .cbwc-copy {
-            font-size: 11px;
-          }
-
-          .cbwc-btn {
-            font-size: 10px;
-            min-height: 36px;
-            border-radius: 9px;
-          }
-        }
-
-        @media (max-width: 390px) {
-          .cbwc-card {
-            flex-basis: 90%;
-            max-width: 90%;
-            min-width: 90%;
-          }
-
-          .cbwc-logo {
-            height: 32px;
-            max-width: 135px;
-          }
-
-          .cbwc-title {
-            font-size: 13px;
-          }
-
-          .cbwc-team {
-            font-size: 11px;
+          .cbwc-next {
+            width: 31px;
+            height: 31px;
+            font-size: 22px;
           }
         }
       </style>
 
-      <div class="cbwc-header">
-        <img class="cbwc-logo" src="${LOGO_URL}" alt="CLICKBET88">
-        <div class="cbwc-title">WORLD CUP MATCH CENTER</div>
-        <div class="cbwc-subtitle">Prediksi Skor • Bet Sport • Rebut Hadiah World Cup</div>
+      <div class="cbwc-top">
+        <div class="cbwc-icon">🏆</div>
+        <div class="cbwc-heading">Rekomendasi Pertandingan</div>
       </div>
 
       ${
         matches && matches.length
-          ? `<div class="cbwc-scroll">
-              ${matches.slice(0, 30).map(function (m) {
-                const teamA = escapeHtml(m.teamA);
-                const teamB = escapeHtml(m.teamB);
-                const tanggal = escapeHtml(m.tanggal);
-                const jam = escapeHtml(m.jam);
-                const group = escapeHtml(m.group || "WORLD CUP");
+          ? `
+            <div class="cbwc-scroll-wrap">
+              <div class="cbwc-scroll">
+                ${matches.slice(0, 30).map(function (m, i) {
+                  const aRaw = String(m.teamA || "");
+                  const bRaw = String(m.teamB || "");
 
-                return `
-                  <div class="cbwc-card">
-                    <div class="cbwc-league">🏆 WORLD CUP 2026</div>
+                  const teamA = escapeHtml(shortName(aRaw));
+                  const teamB = escapeHtml(shortName(bRaw));
+                  const tanggal = escapeHtml(m.tanggal || "");
+                  const jam = escapeHtml(m.jam || "");
+                  const homeOdd = makeOdd(i, "home");
+                  const awayOdd = makeOdd(i, "away");
 
-                    <div class="cbwc-teams">
-                      <div class="cbwc-team">
-                        ${getFlag(m.teamA)}
-                        ${teamA}
+                  return `
+                    <a class="cbwc-card" href="${SBO_LINK}" target="_blank" rel="noopener">
+                      <div class="cbwc-league">🏆 WORLD CUP 2026 (IN CANADA, MEXICO & USA)</div>
+
+                      <div class="cbwc-match">
+                        <div class="cbwc-team">
+                          ${getFlag(aRaw)}
+                          <span class="cbwc-name">${teamA}</span>
+                        </div>
+
+                        <div class="cbwc-mid">
+                          <div class="cbwc-date">${tanggal}</div>
+                          <div class="cbwc-time">${jam} WIB</div>
+                          <div class="cbwc-live">⚽</div>
+                        </div>
+
+                        <div class="cbwc-team">
+                          ${getFlag(bRaw)}
+                          <span class="cbwc-name">${teamB}</span>
+                        </div>
                       </div>
 
-                      <div class="cbwc-vs">VS</div>
+                      <div class="cbwc-market">FT Handicap</div>
 
-                      <div class="cbwc-team">
-                        ${getFlag(m.teamB)}
-                        ${teamB}
+                      <div class="cbwc-odds">
+                        <div class="cbwc-odd">
+                          <div class="cbwc-odd-label">Home 0</div>
+                          <div class="cbwc-odd-num">${homeOdd}</div>
+                        </div>
+
+                        <div class="cbwc-odd">
+                          <div class="cbwc-odd-label">Away 0</div>
+                          <div class="cbwc-odd-num">${awayOdd}</div>
+                        </div>
                       </div>
-                    </div>
+                    </a>
+                  `;
+                }).join("")}
+              </div>
 
-                    <div class="cbwc-time">${tanggal} • ${jam} WIB</div>
-                    <div class="cbwc-group">${group}</div>
-
-                    <div class="cbwc-copy">Punya tiket World Cup? Prediksi skor & rebut hadiahnya.</div>
-
-                    <div class="cbwc-actions">
-                      <a class="cbwc-btn cbwc-prediksi" href="${PREDIKSI_LINK}" target="_blank" rel="noopener">PREDIKSI</a>
-                      <a class="cbwc-btn cbwc-bet" href="${SBO_LINK}" target="_blank" rel="noopener">BET SEKARANG</a>
-                    </div>
-                  </div>
-                `;
-              }).join("")}
-            </div>`
+              <div class="cbwc-next">›</div>
+            </div>
+          `
           : `<div class="cbwc-empty">Belum ada jadwal pertandingan aktif.</div>`
       }
     `;
