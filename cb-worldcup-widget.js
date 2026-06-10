@@ -41,12 +41,7 @@
     const code = flagCodes[team];
     if (!code) return `<span class="cbwc-ball">⚽</span>`;
 
-    return `
-      <img class="cbwc-flag-img"
-        src="https://flagcdn.com/w40/${code}.png"
-        alt="${escapeHtml(team)}"
-        loading="lazy">
-    `;
+    return `<img class="cbwc-flag-img" src="https://flagcdn.com/w40/${code}.png" alt="${escapeHtml(team)}" loading="lazy">`;
   }
 
   function makeOdd(i, side) {
@@ -64,7 +59,7 @@
         #cb-worldcup-widget {
           width: calc(100% - 16px);
           max-width: 1485px;
-          margin: 10px auto;
+          margin: 10px auto 14px;
           padding: 16px 18px 14px;
           border-radius: 8px;
           color: #fff;
@@ -288,35 +283,18 @@
           line-height: 1;
         }
 
-        .cbwc-nav:hover { filter: brightness(1.18); }
-
         .cbwc-prev { left: 0; }
         .cbwc-next { right: 0; }
-
-        .cbwc-empty {
-          padding: 16px;
-          text-align: center;
-          font-size: 13px;
-          font-weight: 800;
-          color: #fff;
-        }
 
         @media (max-width: 768px) {
           #cb-worldcup-widget {
             width: calc(100% - 10px);
             padding: 12px 10px;
-            margin: 8px auto;
           }
 
           .cbwc-heading { font-size: 15px; }
-
-          .cbwc-scroll-wrap {
-            padding: 0 32px;
-          }
-
-          .cbwc-card {
-            flex: 0 0 214px;
-          }
+          .cbwc-scroll-wrap { padding: 0 32px; }
+          .cbwc-card { flex: 0 0 214px; }
 
           .cbwc-nav {
             width: 30px;
@@ -337,7 +315,7 @@
         matches && matches.length
           ? `
             <div class="cbwc-scroll-wrap">
-              <button class="cbwc-nav cbwc-prev" type="button" aria-label="Geser kiri">‹</button>
+              <button class="cbwc-nav cbwc-prev" type="button">‹</button>
 
               <div class="cbwc-scroll">
                 ${matches.slice(0, 30).map(function (m, i) {
@@ -384,54 +362,53 @@
                 }).join("")}
               </div>
 
-              <button class="cbwc-nav cbwc-next" type="button" aria-label="Geser kanan">›</button>
+              <button class="cbwc-nav cbwc-next" type="button">›</button>
             </div>
           `
-          : `<div class="cbwc-empty">Belum ada jadwal pertandingan aktif.</div>`
+          : `<div style="padding:16px;text-align:center;font-weight:800;">Belum ada jadwal pertandingan aktif.</div>`
       }
     `;
 
     return section;
   }
 
-  function findInsertTarget() {
+  function findProviderTarget() {
     const candidates = [
       '[class*="provider"]',
       '[class*="Provider"]',
-      '[class*="dLTxpX"]',
-      '[class*="Top"]',
-      '[class*="top"]',
-      '[class*="game"]'
+      '[class*="TopGames"]',
+      '[class*="top-games"]',
+      '[class*="game-provider"]',
+      '[class*="GameProvider"]'
     ];
 
     for (let i = 0; i < candidates.length; i++) {
       const el = document.querySelector(candidates[i]);
-      if (el && el.parentNode) return el;
+      if (el && el.parentNode && el.offsetHeight > 20 && el.offsetWidth > 300) {
+        return el;
+      }
     }
 
-    return null;
+    const all = Array.from(document.querySelectorAll("div, section"));
+    return all.find(function (el) {
+      const txt = (el.innerText || "").toLowerCase();
+      return txt.includes("top games") && el.offsetWidth > 300 && el.offsetHeight > 40;
+    });
   }
 
- function insertWidget(widget) {
-  if (document.getElementById("cb-worldcup-widget")) return;
+  function insertWidget(widget) {
+    if (document.getElementById("cb-worldcup-widget")) return;
 
-  const providerBar =
-    document.querySelector('[class*="provider"]') ||
-    document.querySelector('[class*="Provider"]') ||
-    document.querySelector('[class*="TopGames"]');
+    const provider = findProviderTarget();
 
-  if (providerBar && providerBar.parentNode) {
-    providerBar.parentNode.insertBefore(widget, providerBar);
-    return;
+    if (provider && provider.parentNode) {
+      provider.parentNode.insertBefore(widget, provider);
+      return;
+    }
+
+    const page = document.querySelector("#page-wrap") || document.querySelector("main") || document.body;
+    page.prepend(widget);
   }
-
-  const page =
-    document.querySelector("#page-wrap") ||
-    document.querySelector("main") ||
-    document.body;
-
-  page.prepend(widget);
-}
 
   function attachButtons(widget) {
     const scrollBox = widget.querySelector(".cbwc-scroll");
@@ -440,17 +417,13 @@
 
     if (!scrollBox) return;
 
-    if (nextBtn) {
-      nextBtn.addEventListener("click", function () {
-        scrollBox.scrollBy({ left: 460, behavior: "smooth" });
-      });
-    }
+    nextBtn && nextBtn.addEventListener("click", function () {
+      scrollBox.scrollBy({ left: 460, behavior: "smooth" });
+    });
 
-    if (prevBtn) {
-      prevBtn.addEventListener("click", function () {
-        scrollBox.scrollBy({ left: -460, behavior: "smooth" });
-      });
-    }
+    prevBtn && prevBtn.addEventListener("click", function () {
+      scrollBox.scrollBy({ left: -460, behavior: "smooth" });
+    });
   }
 
   function init() {
