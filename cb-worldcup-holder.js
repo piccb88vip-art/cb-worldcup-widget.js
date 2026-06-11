@@ -1,6 +1,6 @@
 (function(){
-  var DESKTOP_IMG = "https://plcl.me/images/X49Xd.jpg";
-  var MOBILE_IMG  = "https://plcl.me/images/uTQCo.jpg";
+  var DESKTOP_IMG = "https://plcl.me/images/CzPMv.jpg";
+  var MOBILE_IMG  = "https://plcl.me/images/ZasMs.jpg";
 
   function applyHolder(){
     var isMobile = window.innerWidth <= 991;
