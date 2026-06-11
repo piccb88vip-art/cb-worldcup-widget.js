@@ -1,5 +1,5 @@
 (function(){
-  var DESKTOP_IMG = "https://plcl.me/images/D4vzY.jpg";
+  var DESKTOP_IMG = "https://plcl.me/images/X49Xd.jpg";
   var MOBILE_IMG  = "https://plcl.me/images/uTQCo.jpg";
 
   function applyHolder(){
