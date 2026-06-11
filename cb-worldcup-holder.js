@@ -14,12 +14,19 @@
 
       if(isMobile){
         return (
-          r.top >= 40 &&
+          r.top >= 0 &&
           r.top <= 260 &&
-          r.width >= 280 &&
-          r.height >= 40 &&
-          r.height <= 150 &&
-          (text.includes("daftar") || text.includes("beranda") || text.includes("slot") || text.includes("promosi"))
+          r.width >= 250 &&
+          r.height >= 35 &&
+          r.height <= 180 &&
+          (
+            text.includes("daftar") ||
+            text.includes("masuk") ||
+            text.includes("beranda") ||
+            text.includes("promosi") ||
+            el.querySelector("button") ||
+            el.querySelector("img")
+          )
         );
       }
 
@@ -29,7 +36,12 @@
         r.width > 700 &&
         r.height >= 45 &&
         r.height <= 150 &&
-        (text.includes("beranda") || text.includes("slot") || text.includes("casino") || text.includes("promosi"))
+        (
+          text.includes("beranda") ||
+          text.includes("slot") ||
+          text.includes("casino") ||
+          text.includes("promosi")
+        )
       );
     });
 
@@ -50,6 +62,7 @@
     setTimeout(applyHolder, 300);
     setTimeout(applyHolder, 800);
     setTimeout(applyHolder, 1500);
+    setTimeout(applyHolder, 3000);
   }
 
   run();
@@ -58,16 +71,15 @@
   window.addEventListener("resize", run);
   window.addEventListener("hashchange", run);
   window.addEventListener("popstate", run);
+
   document.addEventListener("click", function(){
     setTimeout(run, 300);
     setTimeout(run, 1000);
   }, true);
 
-  var observer = new MutationObserver(function(){
+  new MutationObserver(function(){
     run();
-  });
-
-  observer.observe(document.body, {
+  }).observe(document.body, {
     childList: true,
     subtree: true
   });
