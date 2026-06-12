@@ -12,20 +12,25 @@ const flag=n=>{let c=F[String(n||"").trim()];return c?`<img class="cbwc-flag-img
 const odd=(i,s)=>{let h=[.82,.8,.78,-.95,.65,-.86,.85,.72],a=[-.92,-.9,-.88,.85,-.75,.76,-.95,-.82];return(s==="h"?h:a)[i%8]};
 const score=m=>{let a=get(m,"scoreA","Score A","score_a"),b=get(m,"scoreB","Score B","score_b"),s=stat(m);if((s==="FINISHED"||s==="SELESAI")&&a!==""&&b!=="")return`<b>${esc(a)} - ${esc(b)}</b><br><span class="cbwc-ft">FT</span>`;if(s==="LIVE"&&a!==""&&b!=="")return`<b>${esc(a)} - ${esc(b)}</b><br><span class="cbwc-live-red">LIVE</span>`;return`${esc(get(m,"jam","Jam",""))}<br>WIB`};
 
-function findBar(){
+function climb(el){
+ let n=el,best=el;
+ for(let i=0;i<12&&n&&n.parentElement;i++,n=n.parentElement){
+  let r=n.getBoundingClientRect();
+  if(r.width>window.innerWidth*.45&&r.height>180)best=n;
+ }
+ return best;
+}
+
+function target(){
  if(bad())return null;
  let all=[...document.querySelectorAll("div,section,nav")];
- let hit=all.find(el=>{
-  let t=(el.innerText||"").trim(),r=el.getBoundingClientRect();
-  return t.includes("Top Games")&&r.width>180&&r.height>=25&&r.height<=120;
- });
- if(!hit)return null;
- let node=hit;
- for(let i=0;i<8&&node.parentElement;i++){
-  let p=node.parentElement,r=p.getBoundingClientRect();
-  if(r.width>window.innerWidth*.55&&r.height>=35&&r.height<=140)node=p;
- }
- return node;
+ let t=all.find(el=>{let tx=(el.innerText||"").trim(),r=el.getBoundingClientRect();return tx.includes("Top Games")&&r.width>100&&r.height>=20&&r.height<=160});
+ if(t)return climb(t);
+
+ let keys=["pragmatic","pgsoft","pocket","joker","jili","kingmaker","habanero","microgaming","nolimit","cq9"];
+ let img=[...document.images].find(i=>keys.some(k=>((i.src||"")+" "+(i.alt||"")).toLowerCase().includes(k)));
+ if(img)return climb(img);
+ return null;
 }
 
 function build(d){
@@ -41,24 +46,14 @@ return w;
 function put(){
  if(bad()){rm();return}
  if(document.getElementById("cb-worldcup-widget"))return;
- let bar=findBar();
- if(!bar||!bar.parentNode)return;
- let w=build(DATA);
- bar.parentNode.insertBefore(w,bar);
+ let bar=target();if(!bar||!bar.parentNode)return;
+ let w=build(DATA);bar.parentNode.insertBefore(w,bar);
  let s=w.querySelector(".cbwc-scroll");
  w.querySelector(".cbwc-next").onclick=()=>s.scrollBy({left:460,behavior:"smooth"});
  w.querySelector(".cbwc-prev").onclick=()=>s.scrollBy({left:-460,behavior:"smooth"});
 }
 
-function load(){
- fetch(API+"?t="+Date.now()).then(r=>r.json()).then(r=>{DATA=r.matches||r.data||[];put()}).catch(e=>console.log("CB World Cup Widget Error:",e));
-}
-
-setInterval(()=>{
- if(location.href!==LAST){LAST=location.href;rm();setTimeout(()=>{if(!bad())put()},900)}
- if(bad())rm();
- if(!bad()&&!document.getElementById("cb-worldcup-widget"))put();
-},900);
-
+function load(){fetch(API+"?t="+Date.now()).then(r=>r.json()).then(r=>{DATA=r.matches||r.data||[];put()}).catch(e=>console.log("CB World Cup Widget Error:",e))}
+setInterval(()=>{if(location.href!==LAST){LAST=location.href;rm();setTimeout(()=>{if(!bad())put()},1000)}if(bad())rm();if(!bad()&&!document.getElementById("cb-worldcup-widget"))put()},1000);
 load();
 })();
