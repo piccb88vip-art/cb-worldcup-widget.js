@@ -1,13 +1,7 @@
 (function(){
 
 const path=location.pathname.toLowerCase();
-if(
-  path.includes("/games/")||
-  path.includes("/sport/")||
-  path.includes("/sbo")||
-  path.includes("/casino")||
-  path.includes("/slot")
-)return;
+if(path.includes("/games/sport/sbo"))return;
 
 const API="https://script.google.com/macros/s/AKfycbw438g3px7gBKhfn0agVBmG5nDPlltf7vRfsdA5gh6o0mkMaF1Fdjgz43-A4SRexXSF/exec",LINK="https://click-lynk.com/SBO_CBWL";
 const FC={"Mexico":"mx","South Africa":"za","Korea Republic":"kr","Czechia":"cz","Canada":"ca","Bosnia and Herzegovina":"ba","United States":"us","USA":"us","Paraguay":"py","Qatar":"qa","Switzerland":"ch","Brazil":"br","Morocco":"ma","Haiti":"ht","Scotland":"gb-sct","Australia":"au","Turkiye":"tr","Turkey":"tr","Germany":"de","Curacao":"cw","Netherlands":"nl","Japan":"jp","Ivory Coast":"ci","Ecuador":"ec","Sweden":"se","Tunisia":"tn","Spain":"es","Cape Verde":"cv","Belgium":"be","Egypt":"eg","Saudi Arabia":"sa","Uruguay":"uy","Iran":"ir","New Zealand":"nz","France":"fr","Senegal":"sn","Iraq":"iq","Norway":"no","Argentina":"ar","Algeria":"dz","Austria":"at","Jordan":"jo","Portugal":"pt","DR Congo":"cd","Congo DR":"cd","England":"gb-eng","Croatia":"hr","Ghana":"gh","Panama":"pa","Uzbekistan":"uz","Colombia":"co"};
@@ -21,76 +15,20 @@ function st(m){return String(val(m,"status","Status","")).toUpperCase()}
 function score(m){let sa=val(m,"scoreA","Score A","score_a"),sb=val(m,"scoreB","Score B","score_b"),x=st(m);if((x==="FINISHED"||x==="SELESAI")&&sa!==""&&sb!=="")return `<b>${e(sa)} - ${e(sb)}</b><br><span class="cbwc-ft">FT</span>`;if(x==="LIVE"&&sa!==""&&sb!=="")return `<b>${e(sa)} - ${e(sb)}</b><br><span class="cbwc-live-red">LIVE</span>`;return `${e(val(m,"jam","Jam",""))}<br>WIB`}
 
 function build(ms){
-let sec=document.createElement("section");
-sec.id="cb-worldcup-widget";
+let sec=document.createElement("section");sec.id="cb-worldcup-widget";
 sec.innerHTML=`<style>
 #cb-worldcup-widget{width:calc(100% - 16px);max-width:1485px;margin:12px auto 14px;padding:16px 18px 14px;border-radius:8px;color:#fff;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#07152a,#05080d);box-shadow:inset 0 0 0 1px rgba(75,140,255,.22);position:relative;overflow:hidden;box-sizing:border-box}
-#cb-worldcup-widget *{box-sizing:border-box}
-.cbwc-top{display:flex;align-items:center;gap:10px;padding-bottom:14px;border-bottom:1px solid rgba(95,155,255,.35);margin-bottom:12px}
-.cbwc-icon{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle,#2b6dff,#06183d);border:1px solid rgba(100,165,255,.8);font-size:14px;flex:0 0 26px}
-.cbwc-heading{font-size:17px;font-weight:900;color:#fff;white-space:nowrap}
-.cbwc-brand{color:#ff1d1d;margin-left:6px;text-shadow:0 0 7px rgba(255,0,0,.75);font-weight:1000}
-.cbwc-scroll-wrap{position:relative;padding:0 38px}
-.cbwc-scroll{display:flex;gap:8px;overflow-x:auto;overflow-y:hidden;padding:0 0 8px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
-.cbwc-scroll::-webkit-scrollbar{height:6px}
-.cbwc-scroll::-webkit-scrollbar-track{background:rgba(255,255,255,.12);border-radius:999px}
-.cbwc-scroll::-webkit-scrollbar-thumb{background:linear-gradient(90deg,#155dcb,#7db5ff);border-radius:999px}
-.cbwc-card{flex:0 0 218px;min-height:154px;padding:9px;border-radius:7px;background:linear-gradient(180deg,#12336d,#071b3d);border:1px solid rgba(90,155,255,.32);scroll-snap-align:start;color:#fff;text-decoration:none}
-.cbwc-league{font-size:6px;font-weight:900;color:#8fc2ff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:8px}
-.cbwc-match{display:grid;grid-template-columns:1fr 54px 1fr;gap:5px}
-.cbwc-team{text-align:center;min-width:0}
-.cbwc-flag-img{width:34px!important;height:23px!important;object-fit:cover!important;border-radius:2px!important;display:block!important;margin:0 auto 5px!important;filter:none!important;-webkit-filter:none!important;opacity:1!important;transform:none!important}
-.cbwc-ball{display:block;font-size:18px;margin-bottom:5px}
-.cbwc-name{display:block;font-size:7px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.cbwc-mid{text-align:center;padding-top:2px}
-.cbwc-date{font-size:7px;color:rgba(255,255,255,.45)}
-.cbwc-time{font-size:11px;font-weight:900}
-.cbwc-live{font-size:9px;color:rgba(255,255,255,.35);margin-top:3px}
-.cbwc-live-red{font-size:8px;color:#ff3b3b;font-weight:900}
-.cbwc-ft{font-size:8px;color:#8fc2ff;font-weight:900}
-.cbwc-market{margin-top:13px;text-align:center;font-size:7px;font-weight:900}
-.cbwc-odds{margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:5px}
-.cbwc-odd{height:36px;border-radius:4px;background:rgba(120,170,255,.10);border:1px solid rgba(120,170,255,.18);padding:5px 6px;text-decoration:none;color:#fff!important}
-.cbwc-odd-label{font-size:6px;color:rgba(255,255,255,.35)}
-.cbwc-odd-num{font-size:13px;font-weight:1000;color:#fff}
-.cbwc-nav{position:absolute;top:50%;transform:translateY(-58%);width:34px;height:46px;border-radius:10px;border:1px solid rgba(110,180,255,.75);background:linear-gradient(180deg,#123d8f,#061b47);color:#eaf4ff;font-size:28px;font-weight:900;display:flex;align-items:center;justify-content:center;z-index:8;cursor:pointer;padding:0}
-.cbwc-prev{left:0}.cbwc-next{right:0}
-@media(max-width:768px){
-#cb-worldcup-widget{width:calc(100% - 16px);padding:12px 8px;margin:10px auto 12px;border-radius:8px}
-.cbwc-top{gap:8px;padding-bottom:12px;margin-bottom:10px}
-.cbwc-icon{width:22px;height:22px;font-size:12px;flex-basis:22px}
-.cbwc-heading{font-size:14px}
-.cbwc-brand{font-size:13px;margin-left:4px}
-.cbwc-scroll-wrap{padding:0 28px}
-.cbwc-card{flex:0 0 178px;min-height:150px;padding:8px}
-.cbwc-match{grid-template-columns:1fr 48px 1fr;gap:4px}
-.cbwc-flag-img{width:28px!important;height:19px!important}
-.cbwc-name{font-size:6.5px}
-.cbwc-league{font-size:5.5px}
-.cbwc-date{font-size:6.5px}
-.cbwc-time{font-size:10px}
-.cbwc-market{font-size:6.5px;margin-top:12px}
-.cbwc-odd{height:35px;padding:5px}
-.cbwc-odd-num{font-size:12px}
-.cbwc-nav{width:28px;height:42px;font-size:24px;border-radius:999px}
-.cbwc-prev{left:-2px}.cbwc-next{right:-2px}
-}
-</style>
-<div class="cbwc-top"><div class="cbwc-icon">🏆</div><div class="cbwc-heading">Rekomendasi Pertandingan <span class="cbwc-brand">CLICKBET88</span></div></div>
-<div class="cbwc-scroll-wrap"><button class="cbwc-nav cbwc-prev" type="button">‹</button><div class="cbwc-scroll">${
-(ms||[]).slice(0,30).map((m,i)=>{
-let a=String(val(m,"teamA","Team A","team_a")),b=String(val(m,"teamB","Team B","team_b")),g=val(m,"group","Group / Stage","stage")||"WORLD CUP 2026",ho=val(m,"homeOdds","Home Odds","home_odds")||od(i,"h"),ao=val(m,"awayOdds","Away Odds","away_odds")||od(i,"a");
-return `<div class="cbwc-card"><div class="cbwc-league">🏆 ${e(g)}</div><div class="cbwc-match"><div class="cbwc-team">${fl(a)}<span class="cbwc-name">${e(sn(a))}</span></div><div class="cbwc-mid"><div class="cbwc-date">${e(val(m,"tanggal","Tanggal","date"))}</div><div class="cbwc-time">${score(m)}</div><div class="cbwc-live">⚽</div></div><div class="cbwc-team">${fl(b)}<span class="cbwc-name">${e(sn(b))}</span></div></div><div class="cbwc-market">${st(m)==="FINISHED"||st(m)==="SELESAI"?"MATCH SELESAI":"FT Handicap"}</div><div class="cbwc-odds"><a class="cbwc-odd" href="${LINK}" target="_blank" rel="noopener"><div class="cbwc-odd-label">Home 0</div><div class="cbwc-odd-num">${e(ho)}</div></a><a class="cbwc-odd" href="${LINK}" target="_blank" rel="noopener"><div class="cbwc-odd-label">Away 0</div><div class="cbwc-odd-num">${e(ao)}</div></a></div></div>`;
-}).join("")
-}</div><button class="cbwc-nav cbwc-next" type="button">›</button></div>`;
+#cb-worldcup-widget *{box-sizing:border-box}.cbwc-top{display:flex;align-items:center;gap:10px;padding-bottom:14px;border-bottom:1px solid rgba(95,155,255,.35);margin-bottom:12px}.cbwc-icon{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle,#2b6dff,#06183d);border:1px solid rgba(100,165,255,.8);font-size:14px;flex:0 0 26px}.cbwc-heading{font-size:17px;font-weight:900;color:#fff;white-space:nowrap}.cbwc-brand{color:#ff1d1d;margin-left:6px;text-shadow:0 0 7px rgba(255,0,0,.75);font-weight:1000}.cbwc-scroll-wrap{position:relative;padding:0 38px}.cbwc-scroll{display:flex;gap:8px;overflow-x:auto;overflow-y:hidden;padding:0 0 8px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}.cbwc-scroll::-webkit-scrollbar{height:6px}.cbwc-scroll::-webkit-scrollbar-track{background:rgba(255,255,255,.12);border-radius:999px}.cbwc-scroll::-webkit-scrollbar-thumb{background:linear-gradient(90deg,#155dcb,#7db5ff);border-radius:999px}.cbwc-card{flex:0 0 218px;min-height:154px;padding:9px;border-radius:7px;background:linear-gradient(180deg,#12336d,#071b3d);border:1px solid rgba(90,155,255,.32);scroll-snap-align:start;color:#fff;text-decoration:none}.cbwc-league{font-size:6px;font-weight:900;color:#8fc2ff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:8px}.cbwc-match{display:grid;grid-template-columns:1fr 54px 1fr;gap:5px}.cbwc-team{text-align:center;min-width:0}.cbwc-flag-img{width:34px!important;height:23px!important;object-fit:cover!important;border-radius:2px!important;display:block!important;margin:0 auto 5px!important;filter:none!important;-webkit-filter:none!important;opacity:1!important;transform:none!important}.cbwc-ball{display:block;font-size:18px;margin-bottom:5px}.cbwc-name{display:block;font-size:7px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.cbwc-mid{text-align:center;padding-top:2px}.cbwc-date{font-size:7px;color:rgba(255,255,255,.45)}.cbwc-time{font-size:11px;font-weight:900}.cbwc-live{font-size:9px;color:rgba(255,255,255,.35);margin-top:3px}.cbwc-live-red{font-size:8px;color:#ff3b3b;font-weight:900}.cbwc-ft{font-size:8px;color:#8fc2ff;font-weight:900}.cbwc-market{margin-top:13px;text-align:center;font-size:7px;font-weight:900}.cbwc-odds{margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:5px}.cbwc-odd{height:36px;border-radius:4px;background:rgba(120,170,255,.10);border:1px solid rgba(120,170,255,.18);padding:5px 6px;text-decoration:none;color:#fff!important}.cbwc-odd-label{font-size:6px;color:rgba(255,255,255,.35)}.cbwc-odd-num{font-size:13px;font-weight:1000;color:#fff}.cbwc-nav{position:absolute;top:50%;transform:translateY(-58%);width:34px;height:46px;border-radius:10px;border:1px solid rgba(110,180,255,.75);background:linear-gradient(180deg,#123d8f,#061b47);color:#eaf4ff;font-size:28px;font-weight:900;display:flex;align-items:center;justify-content:center;z-index:8;cursor:pointer;padding:0}.cbwc-prev{left:0}.cbwc-next{right:0}
+@media(max-width:768px){#cb-worldcup-widget{width:calc(100% - 16px);padding:12px 8px;margin:10px auto 12px;border-radius:8px}.cbwc-top{gap:8px;padding-bottom:12px;margin-bottom:10px}.cbwc-icon{width:22px;height:22px;font-size:12px;flex-basis:22px}.cbwc-heading{font-size:14px}.cbwc-brand{font-size:13px;margin-left:4px}.cbwc-scroll-wrap{padding:0 28px}.cbwc-card{flex:0 0 178px;min-height:150px;padding:8px}.cbwc-match{grid-template-columns:1fr 48px 1fr;gap:4px}.cbwc-flag-img{width:28px!important;height:19px!important}.cbwc-name{font-size:6.5px}.cbwc-league{font-size:5.5px}.cbwc-date{font-size:6.5px}.cbwc-time{font-size:10px}.cbwc-market{font-size:6.5px;margin-top:12px}.cbwc-odd{height:35px;padding:5px}.cbwc-odd-num{font-size:12px}.cbwc-nav{width:28px;height:42px;font-size:24px;border-radius:999px}.cbwc-prev{left:-2px}.cbwc-next{right:-2px}}
+</style><div class="cbwc-top"><div class="cbwc-icon">🏆</div><div class="cbwc-heading">Rekomendasi Pertandingan <span class="cbwc-brand">CLICKBET88</span></div></div><div class="cbwc-scroll-wrap"><button class="cbwc-nav cbwc-prev" type="button">‹</button><div class="cbwc-scroll">${(ms||[]).slice(0,30).map((m,i)=>{let a=String(val(m,"teamA","Team A","team_a")),b=String(val(m,"teamB","Team B","team_b")),g=val(m,"group","Group / Stage","stage")||"WORLD CUP 2026",ho=val(m,"homeOdds","Home Odds","home_odds")||od(i,"h"),ao=val(m,"awayOdds","Away Odds","away_odds")||od(i,"a");return`<div class="cbwc-card"><div class="cbwc-league">🏆 ${e(g)}</div><div class="cbwc-match"><div class="cbwc-team">${fl(a)}<span class="cbwc-name">${e(sn(a))}</span></div><div class="cbwc-mid"><div class="cbwc-date">${e(val(m,"tanggal","Tanggal","date"))}</div><div class="cbwc-time">${score(m)}</div><div class="cbwc-live">⚽</div></div><div class="cbwc-team">${fl(b)}<span class="cbwc-name">${e(sn(b))}</span></div></div><div class="cbwc-market">${st(m)==="FINISHED"||st(m)==="SELESAI"?"MATCH SELESAI":"FT Handicap"}</div><div class="cbwc-odds"><a class="cbwc-odd" href="${LINK}" target="_blank" rel="noopener"><div class="cbwc-odd-label">Home 0</div><div class="cbwc-odd-num">${e(ho)}</div></a><a class="cbwc-odd" href="${LINK}" target="_blank" rel="noopener"><div class="cbwc-odd-label">Away 0</div><div class="cbwc-odd-num">${e(ao)}</div></a></div></div>`}).join("")}</div><button class="cbwc-nav cbwc-next" type="button">›</button></div>`;
 return sec;
 }
 
 function topBar(){
-return[...document.querySelectorAll("div,section,nav")].find(el=>{
-let t=(el.innerText||"").trim(),r=el.getBoundingClientRect();
-return t.includes("Top Games")&&r.width>250&&r.height>=30&&r.height<=160;
-});
+let els=[...document.querySelectorAll("div,section,nav")];
+let byText=els.find(el=>{let t=(el.innerText||"").trim(),r=el.getBoundingClientRect();return t.includes("Top Games")&&r.width>250&&r.height>=30&&r.height<=180});
+if(byText)return byText;
+return document.querySelector('[class*="provider"],[class*="Provider"],[class*="game-provider"],[class*="GameProvider"]');
 }
 
 function ins(w){
@@ -115,8 +53,8 @@ x++;
 if(document.getElementById("cb-worldcup-widget"))return clearInterval(t);
 let w=build(ms);
 if(ins(w)){btn(w);clearInterval(t)}
-if(x>=40)clearInterval(t);
-},500);
+if(x>=50)clearInterval(t);
+},400);
 }
 
 fetch(API+"?t="+Date.now())
