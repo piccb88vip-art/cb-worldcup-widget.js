@@ -1,7 +1,10 @@
 (function(){
 
-const path=location.pathname.toLowerCase();
-if(path.includes("/games/sport/sbo"))return;
+const BLOCK_PATHS=["/games/","/sport/","/sbo","/casino","/slot"];
+function blocked(){let p=location.pathname.toLowerCase();return BLOCK_PATHS.some(x=>p.includes(x))}
+function removeW(){let w=document.getElementById("cb-worldcup-widget");if(w)w.remove()}
+
+if(blocked()){removeW();return}
 
 const API="https://script.google.com/macros/s/AKfycbw438g3px7gBKhfn0agVBmG5nDPlltf7vRfsdA5gh6o0mkMaF1Fdjgz43-A4SRexXSF/exec",LINK="https://click-lynk.com/SBO_CBWL";
 const FC={"Mexico":"mx","South Africa":"za","Korea Republic":"kr","Czechia":"cz","Canada":"ca","Bosnia and Herzegovina":"ba","United States":"us","USA":"us","Paraguay":"py","Qatar":"qa","Switzerland":"ch","Brazil":"br","Morocco":"ma","Haiti":"ht","Scotland":"gb-sct","Australia":"au","Turkiye":"tr","Turkey":"tr","Germany":"de","Curacao":"cw","Netherlands":"nl","Japan":"jp","Ivory Coast":"ci","Ecuador":"ec","Sweden":"se","Tunisia":"tn","Spain":"es","Cape Verde":"cv","Belgium":"be","Egypt":"eg","Saudi Arabia":"sa","Uruguay":"uy","Iran":"ir","New Zealand":"nz","France":"fr","Senegal":"sn","Iraq":"iq","Norway":"no","Argentina":"ar","Algeria":"dz","Austria":"at","Jordan":"jo","Portugal":"pt","DR Congo":"cd","Congo DR":"cd","England":"gb-eng","Croatia":"hr","Ghana":"gh","Panama":"pa","Uzbekistan":"uz","Colombia":"co"};
@@ -24,42 +27,19 @@ sec.innerHTML=`<style>
 return sec;
 }
 
-function topBar(){
-let els=[...document.querySelectorAll("div,section,nav")];
-let byText=els.find(el=>{let t=(el.innerText||"").trim(),r=el.getBoundingClientRect();return t.includes("Top Games")&&r.width>250&&r.height>=30&&r.height<=180});
-if(byText)return byText;
-return document.querySelector('[class*="provider"],[class*="Provider"],[class*="game-provider"],[class*="GameProvider"]');
-}
+function topBar(){return[...document.querySelectorAll("div,section,nav")].find(el=>{let t=(el.innerText||"").trim(),r=el.getBoundingClientRect();return t.includes("Top Games")&&r.width>250&&r.height>=30&&r.height<=180})}
 
-function ins(w){
-if(document.getElementById("cb-worldcup-widget"))return 1;
-let t=topBar();
-if(t&&t.parentNode){t.parentNode.insertBefore(w,t);return 1}
-let f=document.querySelector("main")||document.querySelector("#page-wrap")||document.body;
-f.insertBefore(w,f.firstChild);
-return 1;
-}
+function ins(w){if(blocked()){removeW();return 1}if(document.getElementById("cb-worldcup-widget"))return 1;let t=topBar();if(t&&t.parentNode){t.parentNode.insertBefore(w,t);return 1}return 0}
 
-function btn(w){
-let s=w.querySelector(".cbwc-scroll"),p=w.querySelector(".cbwc-prev"),n=w.querySelector(".cbwc-next");
-if(!s)return;
-n.onclick=()=>s.scrollBy({left:460,behavior:"smooth"});
-p.onclick=()=>s.scrollBy({left:-460,behavior:"smooth"});
-}
+function btn(w){let s=w.querySelector(".cbwc-scroll"),p=w.querySelector(".cbwc-prev"),n=w.querySelector(".cbwc-next");if(!s)return;n.onclick=()=>s.scrollBy({left:460,behavior:"smooth"});p.onclick=()=>s.scrollBy({left:-460,behavior:"smooth"})}
 
-function start(ms){
-let x=0,t=setInterval(()=>{
-x++;
-if(document.getElementById("cb-worldcup-widget"))return clearInterval(t);
-let w=build(ms);
-if(ins(w)){btn(w);clearInterval(t)}
-if(x>=50)clearInterval(t);
-},400);
-}
+function run(ms){if(blocked()){removeW();return}if(document.getElementById("cb-worldcup-widget"))return;let x=0,t=setInterval(()=>{x++;if(blocked()){removeW();clearInterval(t);return}if(document.getElementById("cb-worldcup-widget")){clearInterval(t);return}let w=build(ms);if(ins(w)){btn(w);clearInterval(t)}if(x>=50)clearInterval(t)},400)}
 
-fetch(API+"?t="+Date.now())
-.then(r=>r.json())
-.then(r=>start(r.matches||r.data||[]))
-.catch(err=>console.log("CB World Cup Widget Error:",err));
+function boot(){fetch(API+"?t="+Date.now()).then(r=>r.json()).then(r=>run(r.matches||r.data||[])).catch(err=>console.log("CB World Cup Widget Error:",err))}
+
+let last=location.href;
+setInterval(()=>{if(location.href!==last){last=location.href;if(blocked())removeW();else boot()}},700);
+
+boot();
 
 })();
